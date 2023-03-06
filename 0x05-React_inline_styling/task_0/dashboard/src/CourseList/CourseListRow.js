@@ -1,40 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const rowStyles = { backgroundColor: "#f5f5f5ab" };
-const headerRowStyles = { backgroundColor: "#deb5b545" };
+export default function CourseListRow({
+  isHeader,
+  textFirstCell,
+  textSecondCell,
+}) {
 
-function CourseListRow({ isHeader, textFirstCell, textSecondCell }) {
-  let element;
+  const rowStyle = { backgroundColor: '#f5f5f5ab' }
+  const headerStyle = { backgroundColor: '#deb5b545' }
 
-  if (isHeader === true) {
-    //
+  if (isHeader) {
     if (textSecondCell === null) {
-      element = <th colSpan="2">{textFirstCell}</th>;
+      return (
+        <tr style={headerStyle}>
+          <th colSpan="2">{textFirstCell}</th>
+        </tr>
+      );
     } else {
-      element = (
-        <>
+      return (
+        <tr style={headerStyle}>
           <th>{textFirstCell}</th>
           <th>{textSecondCell}</th>
-        </>
+        </tr>
       );
     }
-    //
-  } else if (isHeader === false) {
-    element = (
-      <>
+  } else {
+    return (
+      <tr style={rowStyle}>
         <td>{textFirstCell}</td>
         <td>{textSecondCell}</td>
-      </>
+      </tr>
     );
   }
-
-  let isHeaderStyle;
-
-  if (isHeader) isHeaderStyle = headerRowStyles;
-  else isHeaderStyle = rowStyles;
-
-  return <tr style={isHeaderStyle}>{element}</tr>;
 }
 
 CourseListRow.defaultProps = {
@@ -45,7 +43,5 @@ CourseListRow.defaultProps = {
 CourseListRow.propTypes = {
   isHeader: PropTypes.bool,
   textFirstCell: PropTypes.string.isRequired,
-  textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  textSecondCell: PropTypes.oneOfType([PropTypes.string, PropTypes.number]) 
 };
-
-export default CourseListRow;

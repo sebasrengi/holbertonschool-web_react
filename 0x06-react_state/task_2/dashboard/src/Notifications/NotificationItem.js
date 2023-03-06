@@ -1,48 +1,47 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, css } from "aphrodite";
+import { css, StyleSheet } from 'aphrodite';
 
-const NotificationItem = React.memo(function NotificationItem({
-  type,
-  value,
-  html,
-  markAsRead,
-  id,
-}) {
-  let listItem;
-
-  let typeStyle = css(type === "urgent" ? styles.urgent : styles.default);
-
-  if (value) {
-    listItem = (
-      <li
-        className={typeStyle}
-        data-notification-type={type}
-        onClick={() => markAsRead(id)}
-      >
-        {value}
-      </li>
-    );
-  } else {
-    listItem = (
-      <li
-        className={typeStyle}
-        data-notification-type={type}
-        dangerouslySetInnerHTML={html}
-        onClick={() => markAsRead(id)}
-      ></li>
-    );
+const styles = StyleSheet.create({
+  urgent: {
+    color: '#ff0000',
+    borderBottom: 'black'
+  },
+  default: {
+    color: '#0000ff',
+    // borderBottom: '1px solid black',
+  },
+  styleSmall : {
+    '@media (max-width: 900px)': {
+      borderBottom:'1px solid black',
+      padding: '10px 8px',
+      fontSize: '20px'
+    }
   }
+})
 
-  return listItem;
-});
+
+class NotificationItem extends React.PureComponent {
+  constructor (props) {
+    super(props)
+  }
+  render(){
+
+    if (this.props.value) {
+      return (<li data-notification-type={this.props.type} className={css(this.props.type === 'urgent' ? styles.urgent : styles.default, styles.styleSmall)} onClick={() => {this.props.markAsRead(this.props.id)}} >{this.props.value}</li>);
+    } else {
+      return (
+        <li data-notification-type={this.props.type} dangerouslySetInnerHTML={this.props.html} className={css(this.props.type === 'urgent' ? styles.urgent : styles.default, styles.styleSmall)} onClick={() => {this.props.markAsRead(this.props.id)}}></li>
+      );
+    }
+  }
+}
 
 NotificationItem.defaultProps = {
   type: "default",
   value: "",
   html: {},
-  markAsRead: () => {},
-  id: NaN,
+  markAsRead: () => {}
 };
 
 NotificationItem.propTypes = {
@@ -54,28 +53,5 @@ NotificationItem.propTypes = {
   markAsRead: PropTypes.func,
   id: PropTypes.number,
 };
-
-const screenSize = {
-  small: "@media screen and (max-width: 900px)",
-};
-
-const listItemSmall = {
-  listStyle: "none",
-  borderBottom: "1px solid black",
-  padding: "10px 8px",
-  fontSize: "20px",
-};
-
-const styles = StyleSheet.create({
-  default: {
-    color: "blue",
-    [screenSize.small]: listItemSmall,
-  },
-
-  urgent: {
-    color: "red",
-    [screenSize.small]: listItemSmall,
-  },
-});
 
 export default NotificationItem;

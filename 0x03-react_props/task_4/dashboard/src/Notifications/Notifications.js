@@ -1,28 +1,28 @@
 import React from "react";
+import "./Notifications.css";
 import NotificationItem from "./NotificationItem";
 import { getLatestNotification } from "../utils/utils";
+import closeButton from "../assets/close-icon.png";
 import PropTypes from "prop-types";
-import "./Notifications.css";
-import closeIcon from "../assets/close-icon.png";
 
-const Notifications = ({ displayDrawer }) => {
+export default function Notifications({ displayDrawer }) {
   return (
     <>
-      <div className="menuItem">
-        <p>Your notifications</p>
-      </div>
-      {displayDrawer && (
-        <div className="Notifications">
+      <div className="menuItem">Your notifications</div>
+
+      { displayDrawer ? 
+        (<div className="Notifications">
           <button
             style={{
-              background: "transparent",
+              right: 45,
               border: "none",
               position: "absolute",
-              right: 20,
+              background: "transparent",
             }}
             aria-label="close"
+            onClick={() => console.log("Close button has been clicked")}
           >
-            <img src={closeIcon} alt="close-icon" />
+            <img src={closeButton} alt="close button icon" />
           </button>
           <p>Here is the list of notifications</p>
           <ul>
@@ -33,11 +33,12 @@ const Notifications = ({ displayDrawer }) => {
               html={{ __html: getLatestNotification() }}
             />
           </ul>
-        </div>
-      )}
+        </div>) 
+        : <></>
+      }
     </>
   );
-};
+}
 
 Notifications.defaultProps = {
   displayDrawer: false,
@@ -46,5 +47,3 @@ Notifications.defaultProps = {
 Notifications.propTypes = {
   displayDrawer: PropTypes.bool,
 };
-
-export default Notifications;

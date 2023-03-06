@@ -1,13 +1,13 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Notifications from "../Notifications/Notifications";
+import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
-import CourseList from "../CourseList/CourseList";
-import Footer from "../Footer/Footer";
-import PropTypes from "prop-types";
 import "./App.css";
+import CourseList from "../CourseList/CourseList";
 
-function App({ isLoggedIn }) {
+export default function App({ isLoggedIn }) {
   return (
     <>
       <Notifications />
@@ -29,5 +29,3 @@ App.defaultProps = {
 App.propTypes = {
   isLoggedIn: PropTypes.bool,
 };
-
-export default App;

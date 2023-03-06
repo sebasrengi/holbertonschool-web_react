@@ -1,17 +1,16 @@
 namespace Subjects {
-  export interface Teacher {
-    experienceTeachingReact?: number;
-  }
-
-  export class React extends Subject {
-    getRequirements(): string {
-      return "Here is the list of requirements for React";
+    export interface Teacher {
+      experienceTeachingReact?: number;
     }
-    getAvailableTeacher(): string {
-      if (!this.teacher.experienceTeachingReact) {
-        return "No available teacher";
+  
+    export class React extends Subject {
+      getRequirements(): string {
+        return 'Here is the list of requirements for React';
       }
-      return `Available Teacher: ${this.teacher.firstName}`;
+  
+      getAvailableTeacher(): string {
+        if (!this.teacher.experienceTeachingReact) return 'No available teacher';
+        return `Available Teacher: ${this.teacher.firstName}`;
+      }
     }
   }
-}

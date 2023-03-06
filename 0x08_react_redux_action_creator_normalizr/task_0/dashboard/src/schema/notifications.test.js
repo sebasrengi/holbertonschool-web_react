@@ -1,30 +1,25 @@
-import { getAllNotificationsByUser } from "./notifications";
+import { getAllNotificationsByUser } from './notifications';
 
-describe("notification_tests", function () {
-  describe("read data from json", function () {
-    it("Should return filtered list", function () {
-      const userId = "5debd764a7c57c7839d722e9";
-
-      const expectedReturn = [
+describe('Test for Notifications.js', () => {
+  it('verify that the function returns the correct data', () => {
+    const result = [
         {
-          guid: "2d8e40be-1c78-4de0-afc9-fcc147afd4d2",
+          guid: '2d8e40be-1c78-4de0-afc9-fcc147afd4d2',
           isRead: true,
-          type: "urgent",
+          type: 'urgent',
           value:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.',
         },
         {
-          guid: "280913fe-38dd-4abd-8ab6-acdb4105f922",
+          guid: '280913fe-38dd-4abd-8ab6-acdb4105f922',
           isRead: false,
-          type: "urgent",
+          type: 'urgent',
           value:
-            "Non diam phasellus vestibulum lorem sed risus ultricies. Tellus mauris a diam maecenas sed",
+            'Non diam phasellus vestibulum lorem sed risus ultricies. Tellus mauris a diam maecenas sed',
         },
-      ];
+      ],
+      context = getAllNotificationsByUser('5debd764a7c57c7839d722e9');
 
-      const filtered = getAllNotificationsByUser(userId);
-
-      expect(filtered).toEqual(expect.arrayContaining(expectedReturn));
-    });
+    expect(context).toEqual(expect.arrayContaining(result));
   });
 });

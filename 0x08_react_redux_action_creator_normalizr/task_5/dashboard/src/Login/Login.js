@@ -1,103 +1,98 @@
-import React, { Component } from "react";
-import { StyleSheet, css } from "aphrodite";
+import React from "react";
+import { css, StyleSheet } from "aphrodite";
 
-class Login extends Component {
+const styles = StyleSheet.create({
+  bodyLogin: {
+    margin: "20px 0 0px 0px",
+    flexGrow: 1,
+  },
+  smallInput: {
+    "@media (max-width: 900px)": {
+      display: "block",
+      marginTop: "10px",
+      marginBottom: "5px",
+    },
+  },
+});
+
+class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this)
+    this.handleChangeEmail = this.handleChangeEmail.bind(this)
+    this.handleChangePassword = this.handleChangePassword.bind(this)
+
     this.state = {
-      email: "",
-      password: "",
-      enableSubmit: false,
+      email: '',
+      password: '',
+      enableSubmit: false
     };
-    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
-    this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
   }
 
-  handleLoginSubmit(event) {
+  handleLoginSubmit(event){
     event.preventDefault();
-
-    const { email, password } = this.state;
-
-    this.props.logIn(email, password);
+    this.props.logIn(this.state.email, this.state.password)
   }
 
   handleChangeEmail(event) {
-    const { value } = event.target;
-    const { password } = this.state;
-
-    if (value !== "" && password !== "") this.setState({ enableSubmit: true });
-    else this.setState({ enableSubmit: false });
-
-    this.setState({ email: event.target.value });
+    this.setState({
+      email: event.target.value
+    }, () => {
+      if (this.state.email !== '' && this.state.password !== '') {
+        this.setState({
+          enableSubmit: true
+        })
+      }
+    })
   }
 
   handleChangePassword(event) {
-    const { value } = event.target;
-    const { email } = this.state;
-
-    if (email !== "" && value !== "") this.setState({ enableSubmit: true });
-    else this.setState({ enableSubmit: false });
-
-    this.setState({ password: event.target.value });
+    this.setState({
+      password: event.target.value
+    }, () => {
+      if (this.state.email !== '' && this.state.password !== '') {
+        this.setState({
+          enableSubmit: true
+        })
+      }
+    })
   }
 
   render() {
     return (
-      <div className={css(styles.login)}>
-        <p>Login to access the full dashboard</p>
-        <form action="" onSubmit={this.handleLoginSubmit}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className={css(styles.loginInput)}
-            value={this.state.email}
-            onChange={this.handleChangeEmail}
-          />
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            className={css(styles.loginInput)}
-            value={this.state.password}
-            onChange={this.handleChangePassword}
-          />
-          <input type="submit" disabled={!this.state.enableSubmit} />
-        </form>
+      <div className="body-login">
+        <div className={css(styles.bodyLogin, styles.smallInput)}>
+          <p>Login to access the full dashboard</p>
+          <form onSubmit={this.handleLoginSubmit}> 
+            <label htmlFor="fname" className={css(styles.smallInput)}>
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              value= {this.state.email}
+              onChange={this.handleChangeEmail}
+              className={css(styles.bodyLoginInput, styles.smallInput)}
+            />
+            <label
+              htmlFor="lname"
+              className={css(styles.smallInput, styles.button)}
+            >
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              value={this.state.password}
+              onChange={this.handleChangePassword}
+              className={css(styles.bodyLoginInput, styles.smallInput)}
+            />
+            <input type='submit' value='Ok' disabled={!this.state.enableSubmit} className={css(styles.button, styles.smallInput)}/>
+          </form>
+        </div>
       </div>
     );
   }
 }
-
-const screenSize = {
-  small: "@media screen and (max-width: 900px)",
-};
-
-const styles = StyleSheet.create({
-  login: {
-    margin: "50px",
-    flexGrow: 1,
-    [screenSize.small]: {
-      marginTop: "10px",
-      marginLeft: 0,
-      marginRight: 0,
-      marginBottom: 0,
-    },
-  },
-
-  loginInput: {
-    marginLeft: "10px",
-    marginRight: "20px",
-    [screenSize.small]: {
-      display: "block",
-      marginLeft: 0,
-      marginTop: "10px",
-      marginBottom: "10px",
-    },
-  },
-});
 
 export default Login;
